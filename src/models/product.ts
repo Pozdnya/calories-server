@@ -12,7 +12,7 @@ export const Product = client.define('pg_cl_products', {
     allowNull: false,
   },
   calories: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   }
 })
