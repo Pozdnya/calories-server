@@ -5,7 +5,7 @@ export const productsRouter = express.Router()
 
 productsRouter.get('/', productController.getAll)
 productsRouter.post('/create', productController.create)
-productsRouter.patch('/update', productController.update)
-productsRouter.delete('/remove', productController.remove)
+productsRouter.patch('/update/:id', productController.update)
+productsRouter.delete('/remove/:id', productController.remove)
 
 

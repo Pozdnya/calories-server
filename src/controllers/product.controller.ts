@@ -17,9 +17,10 @@ const create = async (req: Request, res: Response) => {
 }
 
 const update = async (req: Request, res: Response) => {
-  const { category, productName, calories, id } = req.body
+  const { category, productName, calories } = req.body
+  const { id } = req.params
 
-  const updated = await productService.update({ id }, { category, productName, calories })
+  const updated = await productService.update({ id: Number(id) }, { category, productName, calories })
 
   if (updated.includes(0)) {
     res.status(404).send({ message: "Not Found" })
@@ -31,17 +32,17 @@ const update = async (req: Request, res: Response) => {
 }
 
 const remove = async (req: Request, res: Response) => {
-  const { id } = req.body
+  const { id } = req.params
 
-  const removed = await productService.remove({id})
+  const removed = await productService.remove({ id: Number(id) })
 
   if (!removed) {
-    res.status(404).send({message: 'Not Found'})
+    res.status(404).send({ message: 'Not Found' })
 
     return;
   }
 
-  res.status(200).send({message: 'Deleted'})
+  res.status(204).send({ message: 'Deleted' })
 }
 
 export const productController = {
