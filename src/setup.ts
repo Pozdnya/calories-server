@@ -1,13 +1,12 @@
-import { client } from "./db";
-import { Product } from "./models/product";
 import 'dotenv/config'
+import { models } from "./models";
 
 async function initDb() {
   try {
-    await Product.sync({force: true})
+    await Promise.all(models.map(async (model) => await model.sync({ force: true })));
   } catch (error) {
     console.error(error)
   }
-} 
+}
 
 initDb()
