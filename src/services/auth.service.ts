@@ -1,35 +1,36 @@
 import { v4 as uuidv4 } from 'uuid';
-import bcrypt from 'bcrypt'
-import { ApiError } from "../exception/ApiError"
-import { User } from "../models/user"
-import { IUser } from "../types/interfaces"
+import bcrypt from 'bcrypt';
+import { ApiError } from '../exception/ApiError';
+import { User } from '../models/user';
+import { IUser } from '../types/interfaces';
+import { Model } from 'sequelize';
 
-const register = async ({ name, email, password }: IUser) => {
-  const isExistUser = await getByEmail(email)
+const register = async ({ name, email, password }: IUser): Promise<void> => {
+	const isExistUser = await getByEmail(email);
 
-  if (isExistUser) {
-    throw ApiError.BadRequest('Validation error', {
-      email: 'Email has already used',
-    })
-  }
+	if (isExistUser) {
+		throw ApiError.BadRequest('Validation error', {
+			email: 'Email has already used',
+		});
+	}
 
-  const activationToken = uuidv4()
-  const hash = await bcrypt.hash(password, 10)
+	const activationToken = uuidv4();
+	const hash = await bcrypt.hash(password, 10);
 
-  await User.create({
-    name,
-    email,
-    password: hash,
-    activationToken,
-  })
+	await User.create({
+		name,
+		email,
+		password: hash,
+		activationToken,
+	});
 
-  //ADD EMAIL ACTIVATION
-}
+	//ADD EMAIL ACTIVATION
+};
 
-function getByEmail(email: string) {
-  return User.findOne({ where: { email } })
+function getByEmail(email: string): Promise<Model<typeof User, {}> | null> {
+	return User.findOne({ where: { email } });
 }
 
 export const authService = {
-  register
-}
+	register,
+};

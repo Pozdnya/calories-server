@@ -1,37 +1,50 @@
-import { Product } from "../models/product"
-import { IProduct } from "../types/interfaces";
+import { Model } from 'sequelize';
+import { Product } from '../models/product';
+import { IProduct } from '../types/interfaces';
 
-const getAll = async () => {
-  const products = await Product.findAll()
+const getAll = async (): Promise<Model<IProduct, {}>[] | null> => {
+	const products: Model<IProduct, {}>[] | null = await Product.findAll();
 
-  return products;
-}
+	return products;
+};
 
-const create = async ({ category, productName, calories }: IProduct) => {
-  const newProduct = await Product.create({ category, productName, calories })
+const create = async ({
+	category,
+	productName,
+	calories,
+}: IProduct): Promise<Model<IProduct, {}> | null> => {
+	const newProduct: Model<IProduct, {}> | null = await Product.create({
+		category,
+		productName,
+		calories,
+	});
 
-  return newProduct
-}
+	return newProduct;
+};
 
-const update = async ({ id }: { id: number }, { category, productName, calories }: IProduct) => {
-  const updated = await Product.update(
-    { category, productName, calories },
-    {
-      where: { id }
-    })
+const update = async (
+	{ id }: { id: number },
+	{ category, productName, calories }: IProduct,
+): Promise<[affectedCount: number]> => {
+	const updated = await Product.update(
+		{ category, productName, calories },
+		{
+			where: { id },
+		},
+	);
 
-    return updated
-}
+	return updated;
+};
 
-const remove = async ({ id }: { id: number }) => {
-  const removed = await Product.destroy({ where: { id } })
+const remove = async ({ id }: { id: number }): Promise<number> => {
+	const removed = await Product.destroy({ where: { id } });
 
-  return removed
-}
+	return removed;
+};
 
 export const productService = {
-  getAll,
-  create,
-  update,
-  remove,
-}
+	getAll,
+	create,
+	update,
+	remove,
+};

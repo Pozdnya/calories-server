@@ -1,25 +1,25 @@
-import { IError } from "../types/interfaces";
+import { IError } from '../types/interfaces';
 
 export class ApiError extends Error {
-  status: number;
-  errors: IError | {};
-  
-  constructor(status: number, message: string, errors?: {}) {
-    super(message);
+	status: number;
+	errors: IError | {};
 
-    this.status = status;
-    this.errors = errors!;
-  }
+	constructor(status: number, message: string, errors?: {}) {
+		super(message);
 
-  static BadRequest(message: string, errors: IError) {
-    return new ApiError(400, message, errors);
-  }
+		this.status = status;
+		this.errors = errors!;
+	}
 
-  static Unauthorized() {
-    return new ApiError(401, 'User is not authorized');
-  }
+	static BadRequest(message: string, errors: IError): ApiError {
+		return new ApiError(400, message, errors);
+	}
 
-  static NotFound() {
-    return new ApiError(404, 'Not found');
-  }
+	static Unauthorized(): ApiError {
+		return new ApiError(401, 'User is not authorized');
+	}
+
+	static NotFound(): ApiError {
+		return new ApiError(404, 'Not found');
+	}
 }
