@@ -14,5 +14,8 @@ export const User = client.define('pg_cl_users', {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  activationToken: {
+    type: DataTypes.STRING,
   }
 })

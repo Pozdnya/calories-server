@@ -6,4 +6,16 @@ export interface IProduct {
   calories: number;
 }
 
+export interface IUser {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface IError {
+  email?: string;
+  password?: string;
+  name?: string;
+}
+
 export type AsyncRequestHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>;
