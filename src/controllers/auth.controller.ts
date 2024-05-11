@@ -40,9 +40,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     password: validatePassword(password) || '',
   }
 
-  console.log('validationErrors', validationErrors);
-  
-
   if (
     validationErrors.email
     || validationErrors.password
