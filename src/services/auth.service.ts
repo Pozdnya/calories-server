@@ -4,6 +4,7 @@ import { ApiError } from '../exception/ApiError';
 import { User } from '../models/user';
 import { IUser } from '../types/interfaces';
 import { Model } from 'sequelize';
+import { emailService } from './email.service';
 
 const register = async ({ name, email, password }: IUser): Promise<void> => {
 	const isExistUser = await getByEmail(email);
@@ -24,7 +25,7 @@ const register = async ({ name, email, password }: IUser): Promise<void> => {
 		activationToken,
 	});
 
-	//ADD EMAIL ACTIVATION
+	await emailService.activationEmail(email, activationToken);
 };
 
 function getByEmail(email: string): Promise<Model<typeof User, {}> | null> {

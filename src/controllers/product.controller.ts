@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import { client } from '../db';
-import { Product } from '../models/product';
 import { productService } from '../services/product.service';
 
 const getAll = async (req: Request, res: Response): Promise<void> => {

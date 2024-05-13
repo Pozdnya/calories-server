@@ -23,3 +23,9 @@ export type AsyncRequestHandler = (
 	res: Response,
 	next: NextFunction,
 ) => Promise<void>;
+
+export interface IEmailData {
+	email: string;
+	subject: string;
+	html: string;
+}
