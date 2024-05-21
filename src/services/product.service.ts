@@ -1,19 +1,22 @@
 import { Model } from 'sequelize';
 import { Product } from '../models/product';
-import { IProduct } from '../types/interfaces';
+import { IProductAttributes } from '../types/interfaces';
 
-const getAll = async (): Promise<Model<IProduct, {}>[] | null> => {
-	const products: Model<IProduct, {}>[] | null = await Product.findAll();
+const getAll = async (): Promise<Product[]> => {
+	const products: Product[] = await Product.findAll();
 
 	return products;
 };
 
-const create = async ({
-	category,
-	productName,
-	calories,
-}: IProduct): Promise<Model<IProduct, {}> | null> => {
-	const newProduct: Model<IProduct, {}> | null = await Product.create({
+const getOne = async (id: string): Promise<Product | null> => {
+	const product = await Product.findByPk(id);
+
+	return product;
+};
+
+const create = async ({ id, category, productName, calories }: Product): Promise<Product> => {
+	const newProduct = await Product.create({
+		id,
 		category,
 		productName,
 		calories,
@@ -22,21 +25,27 @@ const create = async ({
 	return newProduct;
 };
 
-const update = async (
-	{ id }: { id: number },
-	{ category, productName, calories }: IProduct,
-): Promise<[affectedCount: number]> => {
-	const updated = await Product.update(
+const update = async ({
+	id,
+	category,
+	productName,
+	calories,
+}: Product): Promise<Product | null> => {
+	const [affectedCount] = await Product.update(
 		{ category, productName, calories },
 		{
 			where: { id },
 		},
 	);
 
-	return updated;
+	if (affectedCount > 0) {
+		return await Product.findByPk(id);
+	}
+
+	return null;
 };
 
-const remove = async ({ id }: { id: number }): Promise<number> => {
+const remove = async (id: string): Promise<number> => {
 	const removed = await Product.destroy({ where: { id } });
 
 	return removed;
@@ -44,6 +53,7 @@ const remove = async ({ id }: { id: number }): Promise<number> => {
 
 export const productService = {
 	getAll,
+	getOne,
 	create,
 	update,
 	remove,

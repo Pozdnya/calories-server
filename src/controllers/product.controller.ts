@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 import { productService } from '../services/product.service';
+import { Product } from '../models/product';
 
 const getAll = async (req: Request, res: Response): Promise<void> => {
 	const products = await productService.getAll();
@@ -7,9 +9,23 @@ const getAll = async (req: Request, res: Response): Promise<void> => {
 	res.send(products);
 };
 
+const getProductById = async (req: Request, res: Response): Promise<void> => {
+	const { id } = req.params;
+	const product = await productService.getOne(id);
+
+	res.send(product);
+};
+
 const create = async (req: Request, res: Response): Promise<void> => {
 	const { category, productName, calories } = req.body;
-	const newProduct = await productService.create({ category, productName, calories });
+	const id = uuidv4();
+
+	const newProduct = await productService.create({
+		id,
+		category,
+		productName,
+		calories,
+	} as Product);
 
 	res.status(201).send(newProduct);
 };
@@ -18,10 +34,7 @@ const update = async (req: Request, res: Response): Promise<void> => {
 	const { category, productName, calories } = req.body;
 	const { id } = req.params;
 
-	const updated = await productService.update(
-		{ id: Number(id) },
-		{ category, productName, calories },
-	);
+	const updated = await productService.update({ id, category, productName, calories } as Product);
 
 	if (!updated) {
 		res.status(404).send({ message: 'Not Found' });
@@ -35,7 +48,7 @@ const update = async (req: Request, res: Response): Promise<void> => {
 const remove = async (req: Request, res: Response): Promise<void> => {
 	const { id } = req.params;
 
-	const removed = await productService.remove({ id: Number(id) });
+	const removed = await productService.remove(id);
 
 	if (!removed) {
 		res.status(404).send({ message: 'Not Found' });
@@ -48,6 +61,7 @@ const remove = async (req: Request, res: Response): Promise<void> => {
 
 export const productController = {
 	getAll,
+	getProductById,
 	create,
 	update,
 	remove,

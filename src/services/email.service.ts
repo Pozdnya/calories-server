@@ -21,7 +21,6 @@ async function send({ email, subject, html }: IEmailData): Promise<void> {
 		from: 'Auth API',
 		to: email,
 		subject,
-		text: 'Test',
 		html,
 	});
 }
@@ -36,7 +35,7 @@ async function activationEmail(email: string, token: string): Promise<void> {
 			<h1>Activation email</h1>
 			<a target="_blank" href=${link}>Follow the link</a>
 		`,
-	});
+	}).then(() => console.log('email were sended'));
 }
 
 export const emailService = {

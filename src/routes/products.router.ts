@@ -5,6 +5,7 @@ import { catchError } from '../middleware/catchError';
 export const productsRouter = express.Router();
 
 productsRouter.get('/', catchError(productController.getAll));
+productsRouter.get('/:id', catchError(productController.getProductById));
 productsRouter.post('/create', catchError(productController.create));
 productsRouter.patch('/update/:id', catchError(productController.update));
 productsRouter.delete('/remove/:id', catchError(productController.remove));

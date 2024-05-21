@@ -5,3 +5,4 @@ import { catchError } from '../middleware/catchError';
 export const authRouter = express.Router();
 
 authRouter.post('/register', catchError(authController.register));
+authRouter.post('/login', catchError(authController.login));

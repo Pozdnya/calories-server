@@ -1,15 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
 
-export interface IProduct {
+export interface IProductAttributes {
+	id: string;
 	category: string;
 	productName: string;
 	calories: number;
 }
 
-export interface IUser {
+export interface IUserAttributes {
+	id: string;
 	name: string;
 	email: string;
 	password: string;
+	activationToken: string | null;
+}
+
+export interface ITokenAttributes {
+	refreshToken: string;
+}
+
+export interface INormalize {
+	name: string;
+	email: string;
+	id: string;
 }
 
 export interface IError {

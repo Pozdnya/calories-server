@@ -11,7 +11,7 @@ export class ApiError extends Error {
 		this.errors = errors!;
 	}
 
-	static BadRequest(message: string, errors: IError): ApiError {
+	static BadRequest(message: string, errors?: IError): ApiError {
 		return new ApiError(400, message, errors);
 	}
 

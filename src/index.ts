@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import { productsRouter } from './routes/productsRouter';
 import 'dotenv/config';
-import { authRouter } from './routes/authRouter';
+import { productsRouter } from './routes/products.router';
+import { authRouter } from './routes/auth.router';
 
 const app = express();
 
